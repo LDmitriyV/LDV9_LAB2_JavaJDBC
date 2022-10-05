@@ -21,7 +21,7 @@ public class LDV9_LAB2 {
             // Создание свойств соединения с базой данных
             Properties authorization = new Properties();
             authorization.put("user", "root"); // Зададим имя пользователя БД
-            authorization.put("password", "root"); // Зададим пароль доступа в БД
+            authorization.put("password", "2238092428dD*"); // Зададим пароль доступа в БД
 
             // Создание соединения с базой данных
             Connection connection = DriverManager.getConnection(url, authorization);
@@ -55,9 +55,9 @@ public class LDV9_LAB2 {
             System.out.print("model - ");
             String scannedModel = sc.nextLine();
             System.out.print("storage - ");
-            int scannedStorage = sc.nextInt();
+            String scannedStorage = sc.nextLine();
             System.out.print("price - ");
-            int scannedPrice = sc.nextInt();
+            String scannedPrice = sc.nextLine();
             
             System.out.println("После добавления:");
             statement.execute("INSERT phones(brand, model, storage, price) VALUES ('" + scannedBrand + "', '" + scannedModel + "', '" + scannedStorage + "', '" + scannedPrice + "')");
@@ -72,8 +72,11 @@ public class LDV9_LAB2 {
 
             System.out.println("Строку с каким id хотите удалить?");
             System.out.print("id - ");
-            int scannedId = sc.nextInt();
-            statement.execute("DELETE FROM phones WHERE Id = " + scannedId);
+            String scannedId = sc.nextLine();
+            if (!scannedId.equals("")) {
+                statement.execute("DELETE FROM phones WHERE id = " + scannedId);
+            }
+            System.out.println();
             
             System.out.println("После удаления:");
             table = statement.executeQuery("SELECT * FROM phones");
@@ -83,23 +86,27 @@ public class LDV9_LAB2 {
                 }
                 System.out.println();
             }
-            
-            System.out.println("На что изменить в первую строку?");
+            System.out.println("Введите id записи для её изменения");
+            System.out.print("id: ");
+            sc.nextLine();
+            System.out.println("Введите новые данные");
             System.out.print("brand - ");
             String scannedBrandUp = sc.nextLine();
-            sc.nextLine();
             System.out.print("model - ");
             String scannedModelUp = sc.nextLine();
             System.out.print("storage - ");
             String scannedStorageUp = sc.nextLine();
             System.out.print("price - ");
             String scannedPriceUp = sc.nextLine();
+            if (!scannedId.equals("")) {
             statement.executeUpdate("UPDATE phones SET Brand = '" + scannedBrandUp + "' WHERE Id = 1");
             statement.executeUpdate("UPDATE phones SET model = '" + scannedModelUp + "' WHERE id = 1");
             statement.executeUpdate("UPDATE phones SET storage = '" + scannedStorageUp + "' WHERE id = 1");
             statement.executeUpdate("UPDATE phones SET price = '" + scannedPriceUp + "' WHERE id = 1");
+            }
             System.out.println("После изменения:");
             table = statement.executeQuery("SELECT * FROM phones");
+            System.out.println();
 
             while (table.next()) {
                 for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
@@ -109,8 +116,17 @@ public class LDV9_LAB2 {
             }
 
             System.out.println("Введите максимальную цену для фильтрации:");
-            int scannedPriceMax = sc.nextInt();
-            table = statement.executeQuery("SELECT * FROM phones WHERE Price < " + scannedPriceMax);
+            
+            while (table.next()) {
+                for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
+                    System.out.print(table.getString(j) + "\t\t");
+                }
+                System.out.println();
+            }
+            System.out.println();
+            
+            String scannedPriceMax = sc.nextLine();
+            table = statement.executeQuery("SELECT * FROM phones WHERE Price < '" + scannedPriceMax + "' ORDER BY id DESC");
 
             while (table.next()) {
                 for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
@@ -126,12 +142,6 @@ public class LDV9_LAB2 {
                 System.out.println();
             }
 
-             while (table.next()) {
-                for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
-                    System.out.print(table.getString(j) + "\t\t");
-                }
-                System.out.println();
-            }
              
             if (table != null) {
                 table.close();
