@@ -21,7 +21,7 @@ public class LDV9_LAB2 {
             // Создание свойств соединения с базой данных
             Properties authorization = new Properties();
             authorization.put("user", "root"); // Зададим имя пользователя БД
-            authorization.put("password", "2238092428dD*"); // Зададим пароль доступа в БД
+            authorization.put("password", "root"); // Зададим пароль доступа в БД
 
             // Создание соединения с базой данных
             Connection connection = DriverManager.getConnection(url, authorization);
