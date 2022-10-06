@@ -1,4 +1,4 @@
-    /*
+        /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
@@ -115,8 +115,19 @@ public class LDV9_LAB2 {
                 System.out.println();
             }
 
-            System.out.println("Введите максимальную цену для фильтрации:");
+            System.out.println("Введите диапазон цены:");
             
+            System.out.println("Введите цену 1:");
+            String scannedPriceMax = sc.nextLine();
+            while (table.next()) {
+                for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
+                    System.out.print(table.getString(j) + "\t\t");
+                }
+                System.out.println();
+            }
+            
+            System.out.println("Введите цену 2:");
+            String scannedPriceMax2 = sc.nextLine();
             while (table.next()) {
                 for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
                     System.out.print(table.getString(j) + "\t\t");
@@ -125,22 +136,17 @@ public class LDV9_LAB2 {
             }
             System.out.println();
             
-            String scannedPriceMax = sc.nextLine();
-            table = statement.executeQuery("SELECT * FROM phones WHERE Price < '" + scannedPriceMax + "' ORDER BY id DESC");
-
+            table = statement.executeQuery("SELECT * FROM phones WHERE Price > '" + scannedPriceMax + "' AND Price < '" + scannedPriceMax2 + "' ORDER BY id DESC");
+            System.out.println("Вывод товара в диапазоне цен: ");
+            System.out.println(scannedPriceMax);
+            System.out.println(scannedPriceMax2);
             while (table.next()) {
                 for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
                     System.out.print(table.getString(j) + "\t\t");
                 }
                 System.out.println();
             }
-
-            while (table.next()) {
-                for (int j = 1; j <= table.getMetaData().getColumnCount(); j++) {
-                    System.out.print(table.getString(j) + "\t\t");
-                }
-                System.out.println();
-            }
+            System.out.println("Окончание работы...");
 
              
             if (table != null) {
